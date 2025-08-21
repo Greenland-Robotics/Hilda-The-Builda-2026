@@ -1,6 +1,13 @@
 # Greenland Robotics Framework: Documentation
 
 ## Notes
+- When writing your opmodes, always include the line `///@author <your-name>` just above the `@TeleOp` or `@Autonomous` annotation. This provides clean documentation about who wrote the opmode, which is useful for collaborative purposes and knowing who to blame when something goes wrong. Jokes aside, it is very important when collaborating on code to sign your work.
+  - Example:
+    ```java
+    ///@author Josh Kelley
+    @TeleOp(name = "My TeleOp")
+    public class MyTeleOp extends TeleOpBase {...}
+    ```
 - If you are using the PlayStation controllers, use the button map below
   | PlayStation    | Gamepad(in code) |
   | -------------- | ---------------- |
