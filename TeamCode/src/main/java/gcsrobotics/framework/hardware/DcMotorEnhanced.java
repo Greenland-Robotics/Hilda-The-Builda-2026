@@ -1,9 +1,9 @@
 package gcsrobotics.framework.hardware;
-
 import static gcsrobotics.framework.Constants.ENCODER_TOLERANCE;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import gcsrobotics.framework.OpModeBase;
 @SuppressWarnings("unused")
@@ -11,12 +11,12 @@ public class DcMotorEnhanced {
     private final DcMotor motor;
     private double DEFAULT_SPEED = 1;
 
-    public DcMotorEnhanced(DcMotor motor) {
-        this.motor = motor;
+    public DcMotorEnhanced(String name, HardwareMap hardwareMap) {
+        this.motor = hardwareMap.get(DcMotor.class, name);
     }
 
-    public DcMotorEnhanced(DcMotor motor, double DEFAULT_SPEED){
-        this.motor = motor;
+    public DcMotorEnhanced(String name, double DEFAULT_SPEED, HardwareMap hardwareMap){
+        this.motor = hardwareMap.get(DcMotor.class, name);
         this.DEFAULT_SPEED = DEFAULT_SPEED;
     }
 
