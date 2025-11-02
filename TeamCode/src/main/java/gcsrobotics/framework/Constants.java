@@ -13,6 +13,12 @@ public class Constants {
     public static double KpDrive;
     public static double KdDrive;
     public static double KpTurn;
+
+    public static double PATH_TOLERANCE_MM = 20;
+    public static double CHAIN_TOLERANCE_MM = 40;
+    public static double TURN_TOLERANCE_DEG = 10;
+    public static double PATH_SETTLE_TIME_MS = 100;
+    public static double TURN_SETTLE_TIME_MS = 150;
     public static int armUp;
     public static int armMiddle;
     public static int armDown;
