@@ -14,11 +14,12 @@ public class Constants {
     public static double KdDrive;
     public static double KpTurn;
 
-    public static double PATH_TOLERANCE_MM = 20;
-    public static double CHAIN_TOLERANCE_MM = 40;
-    public static double TURN_TOLERANCE_DEG = 10;
-    public static double PATH_SETTLE_TIME_MS = 100;
-    public static double TURN_SETTLE_TIME_MS = 150;
+    public static double PATH_TOLERANCE_MM;
+    public static double CHAIN_TOLERANCE_MM;
+    public static double TURN_TOLERANCE_DEG;
+    public static double PATH_SETTLE_TIME_MS;
+    public static double TURN_SETTLE_TIME_MS;
+    public static double PATH_TIMEOUT_MS;
     public static int armUp;
     public static int armMiddle;
     public static int armDown;
@@ -52,6 +53,12 @@ public class Constants {
         KdDrive = 0.001;
         KpTurn = 0.1;
 
+        PATH_TOLERANCE_MM = 20;
+        CHAIN_TOLERANCE_MM = 40;
+        TURN_TOLERANCE_DEG = 10;
+        PATH_SETTLE_TIME_MS = 100;
+        TURN_SETTLE_TIME_MS = 150;
+        PATH_TIMEOUT_MS = 3000;
 
         //More examples here
         armUp = 500;

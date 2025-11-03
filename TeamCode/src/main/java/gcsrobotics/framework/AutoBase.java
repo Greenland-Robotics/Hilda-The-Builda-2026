@@ -5,6 +5,7 @@ import static gcsrobotics.framework.Constants.KdDrive;
 import static gcsrobotics.framework.Constants.KpDrive;
 import static gcsrobotics.framework.Constants.KpTurn;
 import static gcsrobotics.framework.Constants.PATH_SETTLE_TIME_MS;
+import static gcsrobotics.framework.Constants.PATH_TIMEOUT_MS;
 import static gcsrobotics.framework.Constants.PATH_TOLERANCE_MM;
 import static gcsrobotics.framework.Constants.TURN_SETTLE_TIME_MS;
 import static gcsrobotics.framework.Constants.TURN_TOLERANCE_DEG;
@@ -99,9 +100,8 @@ public abstract class AutoBase extends OpModeBase {
         ElapsedTime timer = new ElapsedTime();
         timer.reset();
         while (opModeIsActive() && timer.milliseconds() < milliseconds) {
-            telemetry.addLine("Waiting for " + (milliseconds - timer.milliseconds()));
+            telemetry.addLine(String.format("Waiting for %s", (milliseconds - timer.milliseconds())));
             telemetry.update();
-            odo.update();
             sleep(50);
         }
     }
@@ -341,6 +341,7 @@ public abstract class AutoBase extends OpModeBase {
 
     /// Checks if the robot is not moving
     private boolean notStuck(double targetX, double targetY) {
+        //Apply the pythagorean theorem for total distance moved in both directions
         double currentDistance = Math.sqrt(Math.pow(targetX - getX(), 2) + Math.pow(targetY - getY(), 2));
 
         if (Math.abs(currentDistance - lastDistanceToTarget) > 5) {
@@ -349,7 +350,7 @@ public abstract class AutoBase extends OpModeBase {
             return true;
         }
 
-        return stuckTimer.seconds() < 3.0;
+        return stuckTimer.milliseconds() < PATH_TIMEOUT_MS;
     }
 
 
