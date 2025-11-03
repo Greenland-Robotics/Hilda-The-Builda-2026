@@ -54,7 +54,7 @@ public class Constants {
 
         PATH_TOLERANCE_MM = 20;
         CHAIN_TOLERANCE_MM = 40;
-        TURN_TOLERANCE_DEG = 10;
+        TURN_TOLERANCE_DEG = 1.5;
         PATH_SETTLE_TIME_MS = 100;
         TURN_SETTLE_TIME_MS = 150;
         PATH_TIMEOUT_MS = 3000;

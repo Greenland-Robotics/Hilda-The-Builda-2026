@@ -100,7 +100,7 @@ public abstract class AutoBase extends OpModeBase {
         ElapsedTime timer = new ElapsedTime();
         timer.reset();
         while (opModeIsActive() && timer.milliseconds() < milliseconds) {
-            telemetry.addLine(String.format("Waiting for %s", (milliseconds - timer.milliseconds())));
+            telemetry.addLine(String.format("Waiting for %d milliseconds", (milliseconds - timer.milliseconds())));
             telemetry.update();
             sleep(50);
         }
