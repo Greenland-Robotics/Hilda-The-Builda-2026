@@ -131,7 +131,7 @@ public abstract class AutoBase extends OpModeBase {
 
         while (opModeIsActive() && notStuck(targetX,targetY)) {
             double xError = targetX - getX();
-            double yError = targetY - getY();
+            double yError = -(targetY - getY()); //Set negative to compenstate
 
             boolean atTarget = Math.abs(xError) < PATH_TOLERANCE_MM && Math.abs(yError) < PATH_TOLERANCE_MM;
             if (forgiveAxis == Axis.X) atTarget = Math.abs(yError) < PATH_TOLERANCE_MM;
@@ -177,7 +177,7 @@ public abstract class AutoBase extends OpModeBase {
     protected void chain(int targetX, int targetY, Axis forgiveAxis) {
         while (opModeIsActive() && notStuck(targetX,targetY)) {
             double xError = targetX - getX();
-            double yError = targetY - getY();
+            double yError = -(targetY - getY()); //Set negative to compensate
 
             boolean atTarget = Math.abs(xError) < CHAIN_TOLERANCE_MM && Math.abs(yError) < CHAIN_TOLERANCE_MM;
             if (forgiveAxis == Axis.X) atTarget = Math.abs(yError) < CHAIN_TOLERANCE_MM;
