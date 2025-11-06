@@ -133,9 +133,18 @@ public abstract class AutoBase extends OpModeBase {
             double xError = targetX - getX();
             double yError = -(targetY - getY()); //Set negative to compenstate
 
-            boolean atTarget = Math.abs(xError) < PATH_TOLERANCE_IN && Math.abs(yError) < PATH_TOLERANCE_IN;
-            if (forgiveAxis == Axis.X) atTarget = Math.abs(yError) < PATH_TOLERANCE_IN;
-            else if (forgiveAxis == Axis.Y) atTarget = Math.abs(xError) < PATH_TOLERANCE_IN;
+            boolean atTarget;
+            switch(forgiveAxis){
+                case X:
+                    atTarget = Math.abs(xError) < PATH_TOLERANCE_IN;
+                    break;
+                case Y:
+                    atTarget = Math.abs(yError) < PATH_TOLERANCE_IN;
+                    break;
+                default:
+                    atTarget = Math.abs(xError) < PATH_TOLERANCE_IN && Math.abs(yError) < PATH_TOLERANCE_IN;
+                    break;
+            }
 
             if (atTarget && !endSession) {
                 endSession = true;
@@ -148,7 +157,7 @@ public abstract class AutoBase extends OpModeBase {
 
             double xPower = pidDrivePower(xError, true);
             double yPower = pidDrivePower(yError, false);
-            double headingCorrection = Range.clip(0.03 * getAngle() - this.targetAngle, -0.3, 0.3);
+            double headingCorrection = Range.clip(0.03 * (getAngle() - this.targetAngle), -0.3, 0.3);
 
             setMotorPowers(xPower, yPower, headingCorrection);
             sendTelemetry("PATH", xError, yError, xPower, yPower, headingCorrection);
@@ -179,15 +188,24 @@ public abstract class AutoBase extends OpModeBase {
             double xError = targetX - getX();
             double yError = -(targetY - getY()); //Set negative to compensate
 
-            boolean atTarget = Math.abs(xError) < CHAIN_TOLERANCE_IN && Math.abs(yError) < CHAIN_TOLERANCE_IN;
-            if (forgiveAxis == Axis.X) atTarget = Math.abs(yError) < CHAIN_TOLERANCE_IN;
-            else if (forgiveAxis == Axis.Y) atTarget = Math.abs(xError) < CHAIN_TOLERANCE_IN;
+            boolean atTarget;
+            switch(forgiveAxis){
+                case X:
+                    atTarget = Math.abs(xError) < CHAIN_TOLERANCE_IN;
+                    break;
+                case Y:
+                    atTarget = Math.abs(yError) < CHAIN_TOLERANCE_IN;
+                    break;
+                default:
+                    atTarget = Math.abs(xError) < CHAIN_TOLERANCE_IN && Math.abs(yError) < CHAIN_TOLERANCE_IN;
+                    break;
+            }
 
             if (atTarget) break;
 
             double xPower = pidDrivePower(xError, true);
             double yPower = pidDrivePower(yError, false);
-            double headingCorrection = Range.clip(0.03 * getAngle() - this.targetAngle, -0.3, 0.3);
+            double headingCorrection = Range.clip(0.03 * (getAngle() - this.targetAngle), -0.3, 0.3);
 
             setMotorPowers(xPower, yPower, headingCorrection);
             sendTelemetry("CHAIN", xError, yError, xPower, yPower, headingCorrection);
@@ -355,7 +373,7 @@ public abstract class AutoBase extends OpModeBase {
 
 
     protected void waitUntil(@NonNull Supplier<Boolean> condition) {
-        while (!condition.get()) {
+        while (!condition.get() && opModeIsActive()) {
             sleep(10);
         }
     }
