@@ -1,17 +1,6 @@
 package gcsrobotics.framework;
 
-import static gcsrobotics.framework.Constants.CHAIN_TOLERANCE_IN;
-import static gcsrobotics.framework.Constants.KdDrive;
-import static gcsrobotics.framework.Constants.KpDrive;
-import static gcsrobotics.framework.Constants.KpHeadingCorrection;
-import static gcsrobotics.framework.Constants.KpTurn;
-import static gcsrobotics.framework.Constants.MAX_HEADING_CORRECTION_POWER;
-import static gcsrobotics.framework.Constants.PATH_SETTLE_TIME_MS;
-import static gcsrobotics.framework.Constants.PATH_TIMEOUT_MS;
-import static gcsrobotics.framework.Constants.PATH_TOLERANCE_IN;
-import static gcsrobotics.framework.Constants.TURN_SETTLE_TIME_MS;
-import static gcsrobotics.framework.Constants.TURN_TOLERANCE_DEG;
-import static gcsrobotics.framework.Constants.AUTO_MAX_POWER;
+import static gcsrobotics.framework.Constants.*;
 
 import androidx.annotation.NonNull;
 
