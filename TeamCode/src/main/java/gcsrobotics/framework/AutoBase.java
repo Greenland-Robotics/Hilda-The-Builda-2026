@@ -3,13 +3,15 @@ package gcsrobotics.framework;
 import static gcsrobotics.framework.Constants.CHAIN_TOLERANCE_IN;
 import static gcsrobotics.framework.Constants.KdDrive;
 import static gcsrobotics.framework.Constants.KpDrive;
+import static gcsrobotics.framework.Constants.KpHeadingCorrection;
 import static gcsrobotics.framework.Constants.KpTurn;
+import static gcsrobotics.framework.Constants.MAX_HEADING_CORRECTION_POWER;
 import static gcsrobotics.framework.Constants.PATH_SETTLE_TIME_MS;
 import static gcsrobotics.framework.Constants.PATH_TIMEOUT_MS;
 import static gcsrobotics.framework.Constants.PATH_TOLERANCE_IN;
 import static gcsrobotics.framework.Constants.TURN_SETTLE_TIME_MS;
 import static gcsrobotics.framework.Constants.TURN_TOLERANCE_DEG;
-import static gcsrobotics.framework.Constants.autoMaxPower;
+import static gcsrobotics.framework.Constants.AUTO_MAX_POWER;
 
 import androidx.annotation.NonNull;
 
@@ -157,7 +159,10 @@ public abstract class AutoBase extends OpModeBase {
 
             double xPower = pidDrivePower(xError, true);
             double yPower = pidDrivePower(yError, false);
-            double headingCorrection = Range.clip(0.03 * (getAngle() - this.targetAngle), -0.3, 0.3);
+            double headingCorrection = Range.clip(
+                    KpHeadingCorrection * (getAngle() - this.targetAngle),
+                    -MAX_HEADING_CORRECTION_POWER, MAX_HEADING_CORRECTION_POWER
+            );
 
             setMotorPowers(xPower, yPower, headingCorrection);
             sendTelemetry("PATH", xError, yError, xPower, yPower, headingCorrection);
@@ -205,7 +210,10 @@ public abstract class AutoBase extends OpModeBase {
 
             double xPower = pidDrivePower(xError, true);
             double yPower = pidDrivePower(yError, false);
-            double headingCorrection = Range.clip(0.03 * (getAngle() - this.targetAngle), -0.3, 0.3);
+            double headingCorrection = Range.clip(
+                    KpHeadingCorrection * (getAngle() - this.targetAngle),
+                    -MAX_HEADING_CORRECTION_POWER, MAX_HEADING_CORRECTION_POWER
+            );
 
             setMotorPowers(xPower, yPower, headingCorrection);
             sendTelemetry("CHAIN", xError, yError, xPower, yPower, headingCorrection);
@@ -320,8 +328,8 @@ public abstract class AutoBase extends OpModeBase {
         );
 
         // Only scale if any motor power exceeds the limit
-        if (maxMotorPower > autoMaxPower) {
-            double scaleFactor = autoMaxPower / maxMotorPower;
+        if (maxMotorPower > AUTO_MAX_POWER) {
+            double scaleFactor = AUTO_MAX_POWER / maxMotorPower;
             fl.setPower(flPower * scaleFactor);
             fr.setPower(frPower * scaleFactor);
             bl.setPower(blPower * scaleFactor);
