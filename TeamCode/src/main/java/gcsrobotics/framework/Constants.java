@@ -8,30 +8,30 @@ import gcsrobotics.framework.hardware.GoBildaPinpointDriver;
 /// <strong>A class that holds all of the robot constants</strong>
 @Config("Robot Constants") //This Config tag allows for these values to be tuned in real time using the dashboard
 public class Constants {
-    public final static double KpDrive;
-    public final static double KdDrive;
-    public final static double KpHeadingCorrection;
-    public final static double KpTurn;
+    public static double KpDrive;
+    public static double KdDrive;
+    public static double KpHeadingCorrection;
+    public static double KpTurn;
 
-    public final static double PATH_TOLERANCE_IN;
-    public final static double CHAIN_TOLERANCE_IN;
-    public final static double TURN_TOLERANCE_DEG;
-    public final static double PATH_SETTLE_TIME_MS;
-    public final static double TURN_SETTLE_TIME_MS;
-    public final static double PATH_TIMEOUT_MS;
-    public final static double MAX_HEADING_CORRECTION_POWER;
+    public static double PATH_TOLERANCE_IN;
+    public static double CHAIN_TOLERANCE_IN;
+    public static double TURN_TOLERANCE_DEG;
+    public static double PATH_SETTLE_TIME_MS;
+    public static double TURN_SETTLE_TIME_MS;
+    public static double PATH_TIMEOUT_MS;
+    public static double MAX_HEADING_CORRECTION_POWER;
 
-    public final static double GLOBAL_DEFAULT_MOTOR_SPEED;
-    public final static int ENCODER_TOLERANCE;
-    public final static double AUTO_MAX_POWER;
+    public static double GLOBAL_DEFAULT_MOTOR_SPEED;
+    public static int ENCODER_TOLERANCE;
+    public static double AUTO_MAX_POWER;
 
-    public final static DcMotorSimple.Direction flDirection;
-    public final static DcMotorSimple.Direction frDirection;
-    public final static  DcMotorSimple.Direction blDirection;
-    public final static DcMotorSimple.Direction brDirection;
+    public static DcMotorSimple.Direction flDirection;
+    public static DcMotorSimple.Direction frDirection;
+    public static  DcMotorSimple.Direction blDirection;
+    public static DcMotorSimple.Direction brDirection;
 
-    public final static GoBildaPinpointDriver.EncoderDirection xPodDirection;
-    public final static GoBildaPinpointDriver.EncoderDirection yPodDirection;
+    public static GoBildaPinpointDriver.EncoderDirection xPodDirection;
+    public static GoBildaPinpointDriver.EncoderDirection yPodDirection;
 
     static{
 
