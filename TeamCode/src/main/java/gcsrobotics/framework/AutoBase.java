@@ -49,14 +49,17 @@ public abstract class AutoBase extends OpModeBase {
     private double targetAngle = 0;
 
 
-    /// Used for making small, corrective movements when you need simple directional movement
-    /// @param direction the direction you want to move
-    /// @param power the power to set the motors to
-    /// @param time the time to wait in milliseconds
+    /** Used for making small, corrective movements when you need simple directional movement
+     @param direction the direction you want to move
+     @param power the power to set the motors to
+     @param time the time to wait in milliseconds
+    */
     protected void simpleDrive(Axis direction, double power, int time){
         switch(direction){
             case X:
-                setPowers(power);
+                for(DcMotorEnhanced motor: new DcMotorEnhanced[]{fl,fr,bl,br}){
+                    motor.setPower(power);
+                }
                 wait(time);
                 stopMotors();
                 break;
@@ -76,25 +79,16 @@ public abstract class AutoBase extends OpModeBase {
 
     }
 
-
-    /// Set all motor powers to a certain power
-    /// @param power the power to set the motors to
-    protected void setPowers(double power) {
-        for (DcMotorEnhanced motor : new DcMotorEnhanced[]{fl, fr, bl, br}) {
-            motor.setPower(power);
-        }
-    }
-
-    /// Waits for a set amount of time, similar to sleep, but better for a few reasons
+    /// Waits for a set amount of time, similar to sleep, but better because it keeps updating
     /// @param milliseconds the amount of time to wait in milliseconds
     protected void wait(int milliseconds) {
         ElapsedTime timer = new ElapsedTime();
         timer.reset();
-        while (opModeIsActive() && timer.milliseconds() < milliseconds) {
+        do {
             telemetry.addLine(String.format("Waiting for %d milliseconds", (milliseconds - timer.milliseconds())));
             telemetry.update();
             sleep(50);
-        }
+        } while((opModeIsActive() && timer.milliseconds() < milliseconds));
     }
 
 
@@ -295,6 +289,9 @@ public abstract class AutoBase extends OpModeBase {
 
 
     /// Sets the motor powers according to the calculated powers for pathing methods
+    /// @param xPower the scaled x power
+    /// @param yPower the scaled y power
+    /// @param headingCorrection the scaled heading correction(it will not limit for you!)
     private void setMotorPowers(double xPower, double yPower, double headingCorrection) {
         // Compensate for robot heading (field-centric control)
         double headingRad = Math.toRadians(getAngle());
@@ -351,10 +348,16 @@ public abstract class AutoBase extends OpModeBase {
 
     /// Sets all powers to 0
     private void stopMotors() {
-        setPowers(0);
+        for (DcMotorEnhanced motor : new DcMotorEnhanced[]{fl, fr, bl, br}) {
+            motor.setPower(0);
+        }
     }
 
-    /// Checks if the robot is not moving
+    /** Checks if the robot is not moving. Takes in target coords to check distance again.
+     * Just checks if the distance to target is not updating
+     * @param targetX the x coordinate you want to go to
+     * @param targetY the y coordinate you want to go to
+    */
     private boolean notStuck(double targetX, double targetY) {
         //Apply the pythagorean theorem for total distance moved in both directions
         double currentDistance = Math.sqrt(Math.pow(targetX - getX(), 2) + Math.pow(targetY - getY(), 2));
@@ -369,11 +372,27 @@ public abstract class AutoBase extends OpModeBase {
     }
 
 
+    /// Waits until the supplied condition is true
+    /// @param condition the supplier condition to wait for. Pass in with () -> myCondition
     protected void waitUntil(@NonNull Supplier<Boolean> condition) {
+        ElapsedTime timer = new ElapsedTime();
+        timer.reset();
         while (!condition.get() && opModeIsActive()) {
-            sleep(10);
+            // 0 is a way to get it to wait for the minimum 50ms
+            wait(0);
         }
     }
 
+    ///  Waits until the supplied condition is true, with a timeout option
+    /// @param condition the supplier condition to wait for. Pass in with () -> myCondition
+    protected void waitUntil(@NonNull Supplier<Boolean> condition, long timeoutMs) {
+        if (timeoutMs <= 0) return;
 
+        ElapsedTime timer = new ElapsedTime();
+        timer.reset();
+        while (!condition.get() && opModeIsActive() && timer.milliseconds() < timeoutMs) {
+            // 0 is a way to get it to wait for the minimum 50ms
+            wait(0);
+        }
+    }
 }
