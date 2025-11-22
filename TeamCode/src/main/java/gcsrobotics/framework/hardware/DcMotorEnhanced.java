@@ -3,13 +3,16 @@ import static gcsrobotics.framework.Constants.GLOBAL_DEFAULT_MOTOR_POWER;
 import static gcsrobotics.framework.Constants.ENCODER_TOLERANCE;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import gcsrobotics.framework.OpModeBase;
+
 @SuppressWarnings("unused")
 public class DcMotorEnhanced {
-    private final DcMotor motor;
+    private final DcMotorEx motor;
     private double DEFAULT_POWER;
 
     public DcMotorEnhanced(String name, HardwareMap hardwareMap) {
@@ -17,7 +20,7 @@ public class DcMotorEnhanced {
     }
 
     public DcMotorEnhanced(String name, double DEFAULT_POWER, HardwareMap hardwareMap){
-        this.motor = hardwareMap.get(DcMotor.class, name);
+        this.motor = hardwareMap.get(DcMotorEx.class, name);
         this.DEFAULT_POWER = DEFAULT_POWER;
     }
 
@@ -101,6 +104,38 @@ public class DcMotorEnhanced {
 
     public DcMotorSimple.Direction getDirection(){
         return motor.getDirection();
+    }
+
+    /**
+     * @return velocity of the motor in ticks per second
+     */
+    public double getVelocity() {
+        return motor.getVelocity();
+    }
+
+    /**
+     * @param unit the AngleUnit to return the velocity in
+     * @return velocity of the motor in the given unit
+     */
+    public double getVelocity(AngleUnit unit){
+        return motor.getVelocity(unit);
+    }
+
+    /**
+     * Sets the velocity of the motor to the given angularRate
+     * @param angularRate in radians per second
+     */
+    public void setVelocity(double angularRate){
+        motor.setVelocity(angularRate);
+    }
+
+    /**
+     * Sets the velocity of the motor to the given angularRate in the given AngleUnit
+     * @param angularRate AngleUnit per second
+     * @param unit the AngleUnit to use for measuring rotations
+     */
+    public void setVelocity(double angularRate, AngleUnit unit){
+        motor.setVelocity(angularRate,unit);
     }
 
     /// --- Here you can still access motor directly ---
