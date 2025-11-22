@@ -1,5 +1,5 @@
 package gcsrobotics.framework.hardware;
-import static gcsrobotics.framework.Constants.GLOBAL_DEFAULT_MOTOR_SPEED;
+import static gcsrobotics.framework.Constants.GLOBAL_DEFAULT_MOTOR_POWER;
 import static gcsrobotics.framework.Constants.ENCODER_TOLERANCE;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -10,44 +10,44 @@ import gcsrobotics.framework.OpModeBase;
 @SuppressWarnings("unused")
 public class DcMotorEnhanced {
     private final DcMotor motor;
-    private double DEFAULT_SPEED;
+    private double DEFAULT_POWER;
 
     public DcMotorEnhanced(String name, HardwareMap hardwareMap) {
-        this(name, GLOBAL_DEFAULT_MOTOR_SPEED, hardwareMap);
+        this(name, GLOBAL_DEFAULT_MOTOR_POWER, hardwareMap);
     }
 
-    public DcMotorEnhanced(String name, double DEFAULT_SPEED, HardwareMap hardwareMap){
+    public DcMotorEnhanced(String name, double DEFAULT_POWER, HardwareMap hardwareMap){
         this.motor = hardwareMap.get(DcMotor.class, name);
-        this.DEFAULT_SPEED = DEFAULT_SPEED;
+        this.DEFAULT_POWER = DEFAULT_POWER;
     }
 
     public void setPosAndWait(int targetPosition, OpModeBase opmode){
-        setPosAndWait(targetPosition,DEFAULT_SPEED,opmode);
+        setPosAndWait(targetPosition,DEFAULT_POWER,opmode);
     }
-    public void setPosAndWait(int targetPosition, double speed,OpModeBase opmode){
-        setPosition(targetPosition,speed);
+    public void setPosAndWait(int targetPosition, double power,OpModeBase opmode){
+        setPosition(targetPosition,power);
         while(!isAtTarget()){
             opmode.sleep(10);
         }
     }
 
-    /// Sets the given motor to go to a certain position, at full speed.
-    /// If you want to vary the speed, add another parameter with the speed you want
+    /// Sets the given motor to go to a certain position, at full power.
+    /// If you want to vary the power, add another parameter with the power you want
     public void setPosition(int targetPosition){
-        this.setPosition(targetPosition,DEFAULT_SPEED);
+        this.setPosition(targetPosition,DEFAULT_POWER);
     }
-    /// Sets the given motor to go to a certain position at a given speed
-    public void setPosition(int targetPosition,double speed){
+    /// Sets the given motor to go to a certain position at a given power
+    public void setPosition(int targetPosition,double power){
         motor.setTargetPosition(targetPosition);
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motor.setPower(speed);
+        motor.setPower(power);
     }
 
-    public void setDefaultSpeed(double DEFAULT_SPEED){
-        this.DEFAULT_SPEED = DEFAULT_SPEED;
+    public void setDefaultPower(double DEFAULT_POWER){
+        this.DEFAULT_POWER = DEFAULT_POWER;
     }
 
-    public double getDefaultSpeed(){return DEFAULT_SPEED;}
+    public double getDefaultPower(){return DEFAULT_POWER;}
 
     public void reset(){
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
