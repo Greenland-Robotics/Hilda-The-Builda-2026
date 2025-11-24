@@ -9,6 +9,7 @@ public abstract class TeleOpBase extends OpModeBase {
 
     private double speed = 0.7;
     protected boolean fieldCentric = true;
+    boolean noLock = true;
 
     @Override
     protected void runInit(){
@@ -78,7 +79,6 @@ public abstract class TeleOpBase extends OpModeBase {
 
     /// Toggles fieldCentric mode, with a built in button debounce
     protected void toggleFieldCentric(boolean button){
-        boolean noLock = true;
         if(button && noLock){
             fieldCentric = !fieldCentric;
             noLock = false;
